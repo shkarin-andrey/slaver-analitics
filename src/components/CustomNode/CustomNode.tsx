@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-import { Connection, Handle } from 'reactflow';
+import { Handle } from 'reactflow';
 
 import { ICustomNode } from './CustomNode.interface';
 
@@ -11,11 +11,10 @@ const CustomNode: FC<ICustomNode> = ({ data, isConnectable }) => {
           type='target'
           position={data.targetPosition}
           style={{ background: '#555' }}
-          onConnect={(params: Connection) => console.log('handle onConnect', params)}
           isConnectable={isConnectable}
         />
       )}
-      <div className='flex flex-col'>
+      <div className='flex flex-col bg-white p-3 border border-gray-400'>
         {data.title && <strong className='w-full text-center mb-2'>{data.title}</strong>}
         {data.description}
       </div>

@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect } from 'react';
+import { FC, useCallback, useContext, useEffect } from 'react';
 import ReactFlow, {
   Background,
   Controls,
@@ -9,6 +9,7 @@ import ReactFlow, {
 } from 'reactflow';
 
 import { StateContext } from '../../store';
+import Graphic from '../Graphic';
 import { markerEnd, nodeTypes, snapGrid } from './FlowBots.config';
 
 const FlowBots: FC = () => {
@@ -16,8 +17,37 @@ const FlowBots: FC = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
+  const transformDateToGraph = useCallback((data: any) => {
+    const newData: any = {
+      data: [],
+      labels: [],
+    };
+
+    data.forEach((item: any, index: number) => {
+      if (index === 0) return;
+
+      newData.labels.push(item[0]);
+      newData.data.push(item[1]);
+    });
+
+    return newData;
+  }, []);
+
   useEffect(() => {
     if (!data) return;
+
+    const screen_1_pict = transformDateToGraph(data.screen_1_pict_time);
+    const screen_2_pict = transformDateToGraph(data.screen_2_pict_time);
+    const screen_3_pict = transformDateToGraph(data.screen_3_pict_time);
+    const screen_3_subs = transformDateToGraph(data.screen_3_subs_time);
+    const screen_4_pict = transformDateToGraph(data.screen_4_pict_time);
+    const screen_4_subs = transformDateToGraph(data.screen_4_subs_time);
+    const screen_5_pict = transformDateToGraph(data.screen_5_pict_time);
+    const screen_5_subs = transformDateToGraph(data.screen_5_subs_time);
+    const screen_6_pict = transformDateToGraph(data.screen_6_pict_time);
+    const screen_6_subs = transformDateToGraph(data.screen_6_subs_time);
+    const screen_7_pict = transformDateToGraph(data.screen_7_pict_time);
+    const screen_7_subs = transformDateToGraph(data.screen_7_subs_time);
 
     setNodes([
       {
@@ -26,20 +56,22 @@ const FlowBots: FC = () => {
         data: {
           title: 'Всего пользователей в боте',
           description: (
-            <p>
-              Количество лидов на бота всего - <b>{data.screen_1_stat[1][2]}</b>
-              <br />
-              Медиана 80 время использования бота - <b>{data.screen_1_stat[2][2]}</b>
-              <br />
-              Среднее количество циклов - <b>{data.screen_1_stat[3][2]}</b>
-              <br />
-              На графике время использования бота в минутах <br />
-            </p>
+            <>
+              <p>
+                Количество лидов на бота всего - <b>{data.screen_1_stat[1][2]}</b>
+                <br />
+                Медиана 80 время использования бота - <b>{data.screen_1_stat[2][2]}</b>
+                <br />
+                Среднее количество циклов - <b>{data.screen_1_stat[3][2]}</b>
+                <br />
+                На графике время использования бота в минутах <br />
+              </p>
+              <Graphic data={screen_1_pict.data} labels={screen_1_pict.labels} />
+            </>
           ),
           targetPosition: Position.Bottom,
         },
-        style: { border: '1px solid #777', padding: 10 },
-        position: { x: 300, y: 0 },
+        position: { x: 300, y: -200 },
       },
       {
         id: '2',
@@ -47,19 +79,21 @@ const FlowBots: FC = () => {
         data: {
           title: 'Пользователи не подписавшиеся на канал',
           description: (
-            <p>
-              Количество пользователей - <b>{data.screen_2_stat[1][2]}</b>
-              <br />
-              Медиана 80 время использования бота - <b>{data.screen_2_stat[2][2]}</b>
-              <br />
-              Среднее количество циклов - <b>{data.screen_2_stat[3][2]}</b> <br />
-              На графике время использования бота в минутах <br />
-            </p>
+            <>
+              <p>
+                Количество пользователей - <b>{data.screen_2_stat[1][2]}</b>
+                <br />
+                Медиана 80 время использования бота - <b>{data.screen_2_stat[2][2]}</b>
+                <br />
+                Среднее количество циклов - <b>{data.screen_2_stat[3][2]}</b> <br />
+                На графике время использования бота в минутах <br />
+              </p>
+              <Graphic data={screen_2_pict.data} labels={screen_2_pict.labels} />
+            </>
           ),
           sourcePosition: Position.Right,
         },
-        style: { border: '1px solid #777', padding: 10 },
-        position: { x: 0, y: 200 },
+        position: { x: -50, y: 200 },
       },
       {
         id: '3',
@@ -76,8 +110,7 @@ const FlowBots: FC = () => {
           ),
           sourcePosition: Position.Left,
         },
-        style: { border: '1px solid #777', padding: 10 },
-        position: { x: 550, y: 250 },
+        position: { x: 650, y: 250 },
       },
       {
         id: '4',
@@ -85,17 +118,20 @@ const FlowBots: FC = () => {
         data: {
           title: 'Пользователи отписавшиеся от канала',
           description: (
-            <p>
-              Количество пользователей - <b>{data.screen_4_stat[1][2]}</b>
-              <br />
-              Медиана 80 время использования бота - <b>{data.screen_4_stat[2][2]}</b>
-              <br />
-              Среднее количество циклов - <b>{data.screen_4_stat[3][2]}</b>
-            </p>
+            <>
+              <p>
+                Количество пользователей - <b>{data.screen_4_stat[1][2]}</b>
+                <br />
+                Медиана 80 время использования бота - <b>{data.screen_4_stat[2][2]}</b>
+                <br />
+                Среднее количество циклов - <b>{data.screen_4_stat[3][2]}</b>
+              </p>
+              <Graphic data={screen_4_pict.data} labels={screen_4_pict.labels} />
+              <Graphic data={screen_4_subs.data} labels={screen_4_subs.labels} />
+            </>
           ),
           sourcePosition: Position.Right,
         },
-        style: { border: '1px solid #777', padding: 10 },
         position: { x: 400, y: 400 },
       },
       {
@@ -104,22 +140,25 @@ const FlowBots: FC = () => {
         data: {
           title: 'Пользователи подписавшиеся на канал',
           description: (
-            <p>
-              Количество пользователей - <b>{data.screen_3_stat[1][2]}</b>
-              <br />
-              Медиана 80 время использования бота - <b>{data.screen_3_stat[2][2]}</b>
-              <br />
-              Среднее количество циклов - <b>{data.screen_3_stat[3][2]}</b>
-              <br />
-              Первый график - время использования бота <br />
-              Второй график - Цикл на котором была подписка <br />
-            </p>
+            <>
+              <p>
+                Количество пользователей - <b>{data.screen_3_stat[1][2]}</b>
+                <br />
+                Медиана 80 время использования бота - <b>{data.screen_3_stat[2][2]}</b>
+                <br />
+                Среднее количество циклов - <b>{data.screen_3_stat[3][2]}</b>
+                <br />
+                Первый график - время использования бота <br />
+                Второй график - Цикл на котором была подписка <br />
+              </p>
+              <Graphic data={screen_3_pict.data} labels={screen_3_pict.labels} />
+              <Graphic data={screen_3_subs.data} labels={screen_3_subs.labels} />
+            </>
           ),
           sourcePosition: Position.Left,
           targetPosition: Position.Bottom,
         },
-        style: { border: '1px solid #777', padding: 10 },
-        position: { x: 1000, y: 150 },
+        position: { x: 1000, y: -100 },
       },
       {
         id: '6',
@@ -127,19 +166,22 @@ const FlowBots: FC = () => {
         data: {
           title: 'Пользователи подписавшиеся на канал без отписок (ЦА)',
           description: (
-            <p>
-              Количество пользователей - <b>{data.screen_5_stat[1][2]}</b>
-              <br />
-              Медиана 80 время использования бота - <b>{data.screen_5_stat[2][2]}</b>
-              <br />
-              Среднее количество циклов - <b>{data.screen_5_stat[3][2]}</b>
-            </p>
+            <>
+              <p>
+                Количество пользователей - <b>{data.screen_5_stat[1][2]}</b>
+                <br />
+                Медиана 80 время использования бота - <b>{data.screen_5_stat[2][2]}</b>
+                <br />
+                Среднее количество циклов - <b>{data.screen_5_stat[3][2]}</b>
+              </p>
+              <Graphic data={screen_5_pict.data} labels={screen_5_pict.labels} />
+              <Graphic data={screen_5_subs.data} labels={screen_5_subs.labels} />
+            </>
           ),
           sourcePosition: Position.Top,
           targetPosition: Position.Bottom,
         },
-        style: { border: '1px solid #777', padding: 10 },
-        position: { x: 1000, y: 500 },
+        position: { x: 1100, y: 650 },
       },
       {
         id: '7',
@@ -147,18 +189,21 @@ const FlowBots: FC = () => {
         data: {
           title: 'ЦА с подпиской после взаимодействий с ботом',
           description: (
-            <p>
-              Количество пользователей - <b>{data.screen_7_stat[1][2]}</b>
-              <br />
-              Медиана 80 время использования бота - <b>{data.screen_7_stat[2][2]}</b>
-              <br />
-              Среднее количество циклов - <b>{data.screen_7_stat[3][2]}</b>
-            </p>
+            <>
+              <p>
+                Количество пользователей - <b>{data.screen_7_stat[1][2]}</b>
+                <br />
+                Медиана 80 время использования бота - <b>{data.screen_7_stat[2][2]}</b>
+                <br />
+                Среднее количество циклов - <b>{data.screen_7_stat[3][2]}</b>
+              </p>
+              <Graphic data={screen_7_pict.data} labels={screen_7_pict.labels} />
+              <Graphic data={screen_7_subs.data} labels={screen_7_subs.labels} />
+            </>
           ),
           sourcePosition: Position.Right,
         },
-        style: { border: '1px solid #777', padding: 10 },
-        position: { x: 500, y: 600 },
+        position: { x: 500, y: 1100 },
       },
       {
         id: '8',
@@ -166,18 +211,21 @@ const FlowBots: FC = () => {
         data: {
           title: 'ЦА с подпиской во время работы с ботом',
           description: (
-            <p>
-              Количество пользователей - <b>{data.screen_6_stat[1][2]}</b>
-              <br />
-              Медиана 80 время использования бота - <b>{data.screen_6_stat[2][2]}</b>
-              <br />
-              Среднее количество циклов - <b>{data.screen_6_stat[3][2]}</b>
-            </p>
+            <>
+              <p>
+                Количество пользователей - <b>{data.screen_6_stat[1][2]}</b>
+                <br />
+                Медиана 80 время использования бота - <b>{data.screen_6_stat[2][2]}</b>
+                <br />
+                Среднее количество циклов - <b>{data.screen_6_stat[3][2]}</b>
+              </p>
+              <Graphic data={screen_6_pict.data} labels={screen_6_pict.labels} />
+              <Graphic data={screen_6_subs.data} labels={screen_6_subs.labels} />
+            </>
           ),
           sourcePosition: Position.Top,
         },
-        style: { border: '1px solid #777', padding: 10 },
-        position: { x: 1000, y: 800 },
+        position: { x: 1000, y: 1500 },
       },
     ]);
   }, [data]);
