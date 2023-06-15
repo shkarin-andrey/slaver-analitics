@@ -1,7 +1,10 @@
 import { FC, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
+import InfoPage from '../../pages/InfoPage';
+import MainPage from '../../pages/MainPage';
+import { routers } from '../../routers';
 import { StateContext } from '../../store';
-import FlowBots from '../FlowBots';
 import Layout from '../Layout';
 
 const App: FC = () => {
@@ -15,7 +18,11 @@ const App: FC = () => {
       }}
     >
       <Layout>
-        <FlowBots />
+        <Routes>
+          {routers.map((item) => (
+            <Route key={item.path} path={item.path} element={item.component} />
+          ))}
+        </Routes>
       </Layout>
     </StateContext.Provider>
   );

@@ -10,7 +10,7 @@ const Layout: FC<ILayout> = ({ children }) => {
   return (
     <LayoutAntd>
       <Header />
-      <Content className='h-[calc(100vh-133px)]'>{children}</Content>
+      <Content className='h-[calc(100vh-133px)] overflow-hidden'>{children}</Content>
       <Footer className='text-center'>Аналитика Slaver v1.0.0</Footer>
     </LayoutAntd>
   );
